@@ -1,0 +1,101 @@
+service: employee-crud-api
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: dev
+  region: ap-south-1
+  environment:
+    DYNAMODB_TABLE_NAME: ${self:custom.employeeTableName}
+custom:
+  employeeTableName: employee-table-${self:provider.stage}
+plugins:
+  - serverless-iam-roles-per-function
+functions:
+  getPost:
+    handler: api.getEmployee
+    name: get-employee
+    memorySize: 128 # mb
+    timeout: 5 # seconds
+    events:
+      - http:
+          path: post/{eId}
+          method: GET
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+          - "dynamodb:GetItem"
+        Resource: !GetAtt EmployeeTable.Arn
+  createPost:
+    handler: api.createEmployee
+    name: create-employee
+    memorySize: 128 # mb
+    timeout: 5 # seconds
+    events:
+      - http:
+          path: post
+          method: POST
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+          - "dynamodb:PutItem"
+        Resource: !GetAtt EmployeeTable.Arn
+  updatePost:
+    handler: api.updateEmployee
+    name: update-employee
+    memorySize: 128 # mb
+    timeout: 5 # seconds
+    events:
+      - http:
+          path: post/{postId}
+          method: PUT
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+          - "dynamodb:UpdateItem"
+        Resource: !GetAtt EmployeeTable.Arn
+  deletePost:
+    handler: api.deleteEmployee
+    name: delete-employee
+    memorySize: 128 # mb
+    timeout: 5 # seconds
+    events:
+      - http:
+          path: post/{postId}
+          method: DELETE
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+          - "dynamodb:DeleteItem"
+        Resource: !GetAtt EmployeeTable.Arn
+  getAllPosts:
+    handler: api.getAllEmployees
+    name: get-all-employees
+    memorySize: 128 # mb
+    timeout: 5 # seconds
+    events:
+      - http:
+          path: posts
+          method: GET
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+          - "dynamodb:Scan"
+        Resource: !GetAtt EmployeeTable.Arn
+resources:
+  Resources:
+    EmployeeTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.employeeTableName}
+        AttributeDefinitions:
+          - AttributeName: postId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: postId
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+
+
+
