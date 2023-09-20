@@ -71,7 +71,7 @@ functions:
     handler: api.getAllEmployees
     name: get-all-employees
     memorySize: 128 # mb
-    timeout: 5 # seconds
+    timeout: 5 # seconds  # seconds
     events:
       - http:
           path: employees
@@ -79,7 +79,7 @@ functions:
     iamRoleStatements:
       - Effect: "Allow"
         Action:
-          - "dynamodb:Scan"
+          - "dynamodb:Scan" 
         Resource: !GetAtt EmployeeTable.Arn
 resources:
   Resources:
