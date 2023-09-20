@@ -25,7 +25,7 @@ functions:
         Action:
           - "dynamodb:GetItem"
         Resource: !GetAtt EmployeeTable.Arn
-  createPost:
+  createEmployee:
     handler: api.createEmployee
     name: create-employee
     memorySize: 128 # mb
@@ -39,7 +39,7 @@ functions:
         Action:
           - "dynamodb:PutItem"
         Resource: !GetAtt EmployeeTable.Arn
-  updatePost:
+  updateEmployee:
     handler: api.updateEmployee
     name: update-employee
     memorySize: 128 # mb
@@ -53,7 +53,7 @@ functions:
         Action:
           - "dynamodb:UpdateItem"
         Resource: !GetAtt EmployeeTable.Arn
-  deletePost:
+  deleteEmployee:
     handler: api.deleteEmployee
     name: delete-employee
     memorySize: 128 # mb
