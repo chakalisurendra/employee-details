@@ -11,7 +11,7 @@ custom:
 plugins:
   - serverless-iam-roles-per-function
 functions:
-  getPost:
+  getEmployee:
     handler: api.getEmployee
     name: get-employee
     memorySize: 128 # mb
@@ -46,7 +46,7 @@ functions:
     timeout: 5 # seconds
     events:
       - http:
-          path: employee/{postId}
+          path: employee/{eId}
           method: PUT
     iamRoleStatements:
       - Effect: "Allow"
@@ -60,14 +60,14 @@ functions:
     timeout: 5 # seconds
     events:
       - http:
-          path: employee/{postId}
+          path: employee/{eId}
           method: DELETE
     iamRoleStatements:
       - Effect: "Allow"
         Action:
           - "dynamodb:DeleteItem"
         Resource: !GetAtt EmployeeTable.Arn
-  getAllPosts:
+  getAllEmployees:
     handler: api.getAllEmployees
     name: get-all-employees
     memorySize: 128 # mb
@@ -88,10 +88,10 @@ resources:
       Properties:
         TableName: ${self:custom.employeeTableName}
         AttributeDefinitions:
-          - AttributeName: postId
+          - AttributeName: eId
             AttributeType: S
         KeySchema:
-          - AttributeName: postId
+          - AttributeName: eId
             KeyType: HASH
         ProvisionedThroughput:
           ReadCapacityUnits: 1
