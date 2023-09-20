@@ -18,7 +18,7 @@ functions:
     timeout: 5 # seconds
     events:
       - http:
-          path: post/{eId}
+          path: employee/{eId}
           method: GET
     iamRoleStatements:
       - Effect: "Allow"
@@ -32,7 +32,7 @@ functions:
     timeout: 5 # seconds
     events:
       - http:
-          path: post
+          path: employee
           method: POST
     iamRoleStatements:
       - Effect: "Allow"
@@ -46,7 +46,7 @@ functions:
     timeout: 5 # seconds
     events:
       - http:
-          path: post/{postId}
+          path: employee/{postId}
           method: PUT
     iamRoleStatements:
       - Effect: "Allow"
@@ -60,7 +60,7 @@ functions:
     timeout: 5 # seconds
     events:
       - http:
-          path: post/{postId}
+          path: employee/{postId}
           method: DELETE
     iamRoleStatements:
       - Effect: "Allow"
@@ -74,7 +74,7 @@ functions:
     timeout: 5 # seconds
     events:
       - http:
-          path: posts
+          path: employees
           method: GET
     iamRoleStatements:
       - Effect: "Allow"
